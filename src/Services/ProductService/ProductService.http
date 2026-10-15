@@ -1,0 +1,63 @@
+@ProductService_HostAddress = http://localhost:5101
+
+### Get all active products (200)
+GET {{ProductService_HostAddress}}/api/products
+Accept: application/json
+
+### Get one product by id (200)
+GET {{ProductService_HostAddress}}/api/products/1
+Accept: application/json
+
+### Get a product that does not exist (404)
+GET {{ProductService_HostAddress}}/api/products/99999
+Accept: application/json
+
+### Create a product (201) - the requests below use the id this one returns
+# @name createProduct
+POST {{ProductService_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "HD Webcam",
+  "description": "1080p USB webcam with microphone",
+  "price": 2499.00,
+  "stockQuantity": 40
+}
+
+### Create with invalid data (400)
+POST {{ProductService_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "price": 0,
+  "stockQuantity": -1
+}
+
+### Update the product created above (204)
+PUT {{ProductService_HostAddress}}/api/products/{{createProduct.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "name": "HD Webcam Pro",
+  "description": "1080p USB webcam with dual microphones",
+  "price": 2999.00,
+  "stockQuantity": 35
+}
+
+### Update a product that does not exist (404)
+PUT {{ProductService_HostAddress}}/api/products/99999
+Content-Type: application/json
+
+{
+  "name": "Does not matter",
+  "price": 10.00,
+  "stockQuantity": 1
+}
+
+### Delete (soft delete) the product created above (204)
+DELETE {{ProductService_HostAddress}}/api/products/{{createProduct.response.body.$.id}}
+
+### Get the deleted product - it is now inactive (404)
+GET {{ProductService_HostAddress}}/api/products/{{createProduct.response.body.$.id}}
+Accept: application/json

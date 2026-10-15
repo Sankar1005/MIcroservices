@@ -2,13 +2,15 @@
 
 ASP.NET Core (.NET 10) microservices solution using **ADO.NET** (`Microsoft.Data.SqlClient`) for data access and **SQL Server LocalDB** as the database.
 
-> This is the project skeleton only. The services contain no business logic yet.
+> **ProductService** is implemented (CRUD, `api/products`). The other services are still empty skeletons.
+> Service ports and coding conventions are in [CLAUDE.md](CLAUDE.md).
 
 ## Solution structure
 
 ```
 Microservices_Project/
 ├── Microservices.slnx
+├── database/                        # SQL scripts, numbered and safe to re-run
 └── src/
     ├── ApiGateway/                  # Entry point for clients (YARP reverse proxy package added)
     └── Services/
@@ -26,6 +28,7 @@ Every service is an ASP.NET Core Web API project with the same layout:
 ├── Controllers/        # API endpoints
 ├── Models/             # Entities and request/response models
 ├── Repositories/       # ADO.NET data access (SqlConnection / SqlCommand)
+├── Services/           # Business logic between controller and repository (ProductService)
 ├── Properties/launchSettings.json
 ├── appsettings.json    # Connection string to the Microservices database
 └── Program.cs
@@ -47,8 +50,11 @@ Read it in code with `builder.Configuration.GetConnectionString("MicroservicesDb
 Requirements: .NET 10 SDK, SQL Server LocalDB, and a `Microservices` database created in SSMS.
 
 ```bash
+sqlcmd -S "(localdb)\MSSQLLocalDB" -E -d Microservices -i database\001_product_schema.sql
 dotnet build Microservices.slnx
-dotnet run --project src/Services/ProductService
+dotnet run --project src/Services/ProductService --launch-profile http
 ```
+
+Then open http://localhost:5101/swagger.
 
 In Visual Studio, open `Microservices.slnx` and use **Configure Startup Projects → Multiple startup projects** to run several services at once.
