@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Types that more than one service uses (see docs/decisions/contracts.md). No dependencies on purpose. -->
+
+</Project>

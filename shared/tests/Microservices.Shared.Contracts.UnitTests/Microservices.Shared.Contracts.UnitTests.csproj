@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Test packages come from Directory.Build.props (all *.UnitTests projects). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Microservices.Shared.Contracts\Microservices.Shared.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

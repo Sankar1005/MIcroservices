@@ -1,0 +1,28 @@
+name: database
+
+# Path-filtered: runs only when the SQL project changes. Building validates every object and reference.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'database/**'
+      - 'global.json'
+      - '.github/workflows/database.yml'
+  pull_request:
+    paths:
+      - 'database/**'
+      - 'global.json'
+      - '.github/workflows/database.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Build the .dacpac
+        run: dotnet build database/Microservices.Database/Microservices.Database.sqlproj -c Release

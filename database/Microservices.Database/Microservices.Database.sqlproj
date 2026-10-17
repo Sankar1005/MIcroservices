@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.Build.Sql">
+
+  <!--
+    SDK-style SQL project for the Microservices database: the ONLY place for schema changes.
+    Every .sql file in this folder is part of the model. `dotnet build` produces a .dacpac;
+    tools/deploy-database.ps1 publishes it (SqlPackage works out the ALTER/CREATE statements).
+    SDK version is pinned in global.json ("msbuild-sdks").
+  -->
+  <PropertyGroup>
+    <Name>Microservices.Database</Name>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
+    <ModelCollation>1033, CI</ModelCollation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Runs after every publish. Used for sample data, so it must be safe to run again. -->
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+
+</Project>
