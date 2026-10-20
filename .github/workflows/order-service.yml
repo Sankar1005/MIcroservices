@@ -1,0 +1,34 @@
+name: order-service
+
+# Path-filtered: runs only when OrderService, the shared libraries or the shared build settings change.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/order-service/**'
+      - 'shared/src/**'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+      - '.github/workflows/order-service.yml'
+  pull_request:
+    paths:
+      - 'services/order-service/**'
+      - 'shared/src/**'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+      - '.github/workflows/order-service.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Build and run unit tests
+        run: dotnet test --project services/order-service/tests/OrderService.UnitTests/OrderService.UnitTests.csproj -c Release

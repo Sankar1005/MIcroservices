@@ -2,7 +2,8 @@
 
 ASP.NET Core (.NET 10) microservices using **ADO.NET** (`Microsoft.Data.SqlClient`) and **SQL Server LocalDB**.
 
-> **ProductService** is implemented (CRUD, `api/products`). The other services are still empty skeletons.
+> **ProductService** (`api/products`) and **OrderService** (`api/orders`, calls ProductService) are implemented.
+> The other services are still empty skeletons. How services talk: [docs/decisions/service-communication.md](docs/decisions/service-communication.md).
 > Rules for contributors and AI agents, plus service ports, are in [CLAUDE.md](CLAUDE.md).
 
 ## Repository layout
@@ -19,7 +20,7 @@ Microservices_Project/
 │
 ├── services/
 │   ├── product-service/         ← products (CRUD)            src/ProductService.Api, tests/ProductService.UnitTests
-│   ├── order-service/           ← orders (skeleton)
+│   ├── order-service/           ← orders; calls product-service over HTTP   src/OrderService.Api, tests/OrderService.UnitTests
 │   ├── customer-service/        ← customers (skeleton)
 │   ├── payment-service/         ← payments (skeleton)
 │   ├── inventory-service/       ← inventory (skeleton)

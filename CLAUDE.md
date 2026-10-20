@@ -30,7 +30,10 @@ Folders inside `<Name>Service.Api`:
 - `Services/`: business logic and Model ↔ DTO mapping.
 - `Repositories/`: ADO.NET SQL.
 - `Models/`: the table entity and request DTOs.
+- `Clients/`: typed `HttpClient`s for calling other services (only when the service calls another one).
 - Response DTOs read by other services go in `Microservices.Shared.Contracts` (`docs/decisions/contracts.md`).
+- Service-to-service calls: HTTP via a typed client with `AddStandardResilienceHandler`, base URL from
+  `Services:<Name>:BaseUrl` in configuration. Never read another service's schema (`docs/decisions/service-communication.md`).
 
 ## Code conventions
 
@@ -57,11 +60,12 @@ dotnet run --project services/product-service/src/ProductService.Api --launch-pr
 | Service          | HTTP                  | HTTPS                  | Swagger UI (Development)      |
 |------------------|-----------------------|------------------------|-------------------------------|
 | ProductService   | http://localhost:5101 | https://localhost:7101 | http://localhost:5101/swagger |
-| OrderService     | not fixed yet         | not fixed yet          |                               |
+| OrderService     | http://localhost:5102 | https://localhost:7102 | http://localhost:5102/swagger |
 | CustomerService  | not fixed yet         | not fixed yet          |                               |
 | PaymentService   | not fixed yet         | not fixed yet          |                               |
 | InventoryService | not fixed yet         | not fixed yet          |                               |
 | ApiGateway       | not fixed yet         | not fixed yet          |                               |
 
 Other services call ProductService at `http://localhost:5101/api/products/{id}`
-(HTTPS redirection is turned off in Development).
+(HTTPS redirection is turned off in Development). OrderService does this when an order is placed,
+so run ProductService and OrderService together.

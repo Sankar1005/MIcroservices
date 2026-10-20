@@ -1,0 +1,59 @@
+# ProductService must be running too (http://localhost:5101): placing an order calls it.
+@OrderService_HostAddress = http://localhost:5102
+
+### Get all active orders (200)
+GET {{OrderService_HostAddress}}/api/orders
+Accept: application/json
+
+### Place an order (201) - OrderService asks ProductService for products 1 and 2
+# @name createOrder
+POST {{OrderService_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test Customer",
+  "items": [
+    { "productId": 1, "quantity": 1 },
+    { "productId": 2, "quantity": 3 }
+  ]
+}
+
+### Get the order placed above (200)
+GET {{OrderService_HostAddress}}/api/orders/{{createOrder.response.body.$.id}}
+Accept: application/json
+
+### Get an order that does not exist (404)
+GET {{OrderService_HostAddress}}/api/orders/99999
+Accept: application/json
+
+### Product that ProductService does not know (400)
+POST {{OrderService_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test Customer",
+  "items": [ { "productId": 99999, "quantity": 1 } ]
+}
+
+### More than ProductService has in stock (400)
+POST {{OrderService_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Test Customer",
+  "items": [ { "productId": 1, "quantity": 1000 } ]
+}
+
+### Invalid body (400, checked before ProductService is called)
+POST {{OrderService_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "",
+  "items": []
+}
+
+### Cancel (soft delete) the order placed above (204)
+DELETE {{OrderService_HostAddress}}/api/orders/{{createOrder.response.body.$.id}}
+
+### Now stop ProductService and place an order again: expect 503 Service Unavailable.
