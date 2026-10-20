@@ -1,4 +1,5 @@
 using Microservices.Shared.Logging;
+using Microsoft.AspNetCore.HttpOverrides;
 using ProductService.Api.Repositories;
 using ProductService.Api.Services;
 
@@ -27,9 +28,18 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
+// Requests from clients arrive through the API Gateway, which adds X-Forwarded-Host/-Proto/-For.
+// Reading them makes links (e.g. the Location header of 201 Created) use the gateway's public address
+// and logs show the real client. By default only proxies on this machine (localhost) are trusted.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost);
+
 var app = builder.Build();
 
-// Must be first so it sees every request and catches exceptions thrown anywhere later in the pipeline.
+// Before everything else, so the rest of the pipeline sees the original (public) host and scheme.
+app.UseForwardedHeaders();
+
+// Must be next so it sees every request and catches exceptions thrown anywhere later in the pipeline.
 app.UseSharedLogging();
 
 if (app.Environment.IsDevelopment())

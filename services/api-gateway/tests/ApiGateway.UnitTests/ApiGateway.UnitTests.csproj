@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Test packages come from Directory.Build.props (all *.UnitTests projects). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ApiGateway\ApiGateway.csproj" />
+  </ItemGroup>
+
+  <!-- The tests read the gateway's real routing configuration. -->
+  <ItemGroup>
+    <None Include="..\..\src\ApiGateway\appsettings.json" Link="gateway.appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

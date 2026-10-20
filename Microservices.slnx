@@ -12,6 +12,7 @@
   <Folder Name="/services/" />
   <Folder Name="/services/api-gateway/">
     <Project Path="services/api-gateway/src/ApiGateway/ApiGateway.csproj" />
+    <Project Path="services/api-gateway/tests/ApiGateway.UnitTests/ApiGateway.UnitTests.csproj" />
   </Folder>
   <Folder Name="/services/customer-service/">
     <Project Path="services/customer-service/src/CustomerService.Api/CustomerService.Api.csproj" />

@@ -1,0 +1,38 @@
+# Everything here goes THROUGH the gateway (5100). Start ProductService (5101) and OrderService (5102) first.
+@Gateway = http://localhost:5100
+
+### Gateway info (answered by the gateway itself)
+GET {{Gateway}}/
+
+### Gateway health (answered by the gateway itself)
+GET {{Gateway}}/health
+
+### Products -> forwarded to ProductService (5101)
+GET {{Gateway}}/api/products
+Accept: application/json
+
+### One product -> forwarded to ProductService
+GET {{Gateway}}/api/products/1
+Accept: application/json
+
+### Orders -> forwarded to OrderService (5102)
+GET {{Gateway}}/api/orders
+Accept: application/json
+
+### Place an order -> OrderService, which itself calls ProductService directly (not through the gateway)
+# @name createOrder
+POST {{Gateway}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Gateway Test",
+  "items": [ { "productId": 1, "quantity": 1 } ]
+}
+
+### Cancel the order placed above (the Location header of the POST also points to the gateway)
+DELETE {{Gateway}}/api/orders/{{createOrder.response.body.$.id}}
+
+### No route for this path (404 from the gateway)
+GET {{Gateway}}/api/unknown
+
+### Stop ProductService and run "One product" again: the gateway answers 502 Bad Gateway.
