@@ -16,6 +16,11 @@
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
+  <ItemGroup Label="Service-to-service HTTP">
+    <!-- Retries, timeouts and circuit breaker for HttpClient calls to other services. -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
+  </ItemGroup>
+
   <ItemGroup Label="Data access (ADO.NET)">
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.1" />
   </ItemGroup>

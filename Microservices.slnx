@@ -21,6 +21,7 @@
   </Folder>
   <Folder Name="/services/order-service/">
     <Project Path="services/order-service/src/OrderService.Api/OrderService.Api.csproj" />
+    <Project Path="services/order-service/tests/OrderService.UnitTests/OrderService.UnitTests.csproj" />
   </Folder>
   <Folder Name="/services/payment-service/">
     <Project Path="services/payment-service/src/PaymentService.Api/PaymentService.Api.csproj" />
