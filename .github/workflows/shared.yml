@@ -1,0 +1,35 @@
+name: shared
+
+# Path-filtered: runs only when the shared libraries or the shared build settings change.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'shared/**'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+      - '.github/workflows/shared.yml'
+  pull_request:
+    paths:
+      - 'shared/**'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+      - '.github/workflows/shared.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Contracts unit tests
+        run: dotnet test --project shared/tests/Microservices.Shared.Contracts.UnitTests/Microservices.Shared.Contracts.UnitTests.csproj -c Release
+
+      - name: Logging unit tests
+        run: dotnet test --project shared/tests/Microservices.Shared.Logging.UnitTests/Microservices.Shared.Logging.UnitTests.csproj -c Release

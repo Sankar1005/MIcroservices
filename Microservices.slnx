@@ -1,12 +1,41 @@
 <Solution>
-  <Folder Name="/Gateway/">
-    <Project Path="src/ApiGateway/ApiGateway.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path="CLAUDE.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
   </Folder>
-  <Folder Name="/Services/">
-    <Project Path="src/Services/CustomerService/CustomerService.csproj" />
-    <Project Path="src/Services/InventoryService/InventoryService.csproj" />
-    <Project Path="src/Services/OrderService/OrderService.csproj" />
-    <Project Path="src/Services/PaymentService/PaymentService.csproj" />
-    <Project Path="src/Services/ProductService/ProductService.csproj" />
+  <Folder Name="/database/">
+    <Project Path="database/Microservices.Database/Microservices.Database.sqlproj" />
+  </Folder>
+  <Folder Name="/services/" />
+  <Folder Name="/services/api-gateway/">
+    <Project Path="services/api-gateway/src/ApiGateway/ApiGateway.csproj" />
+  </Folder>
+  <Folder Name="/services/customer-service/">
+    <Project Path="services/customer-service/src/CustomerService.Api/CustomerService.Api.csproj" />
+  </Folder>
+  <Folder Name="/services/inventory-service/">
+    <Project Path="services/inventory-service/src/InventoryService.Api/InventoryService.Api.csproj" />
+  </Folder>
+  <Folder Name="/services/order-service/">
+    <Project Path="services/order-service/src/OrderService.Api/OrderService.Api.csproj" />
+  </Folder>
+  <Folder Name="/services/payment-service/">
+    <Project Path="services/payment-service/src/PaymentService.Api/PaymentService.Api.csproj" />
+  </Folder>
+  <Folder Name="/services/product-service/">
+    <Project Path="services/product-service/src/ProductService.Api/ProductService.Api.csproj" />
+    <Project Path="services/product-service/tests/ProductService.UnitTests/ProductService.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/shared/" />
+  <Folder Name="/shared/src/">
+    <Project Path="shared/src/Microservices.Shared.Contracts/Microservices.Shared.Contracts.csproj" />
+    <Project Path="shared/src/Microservices.Shared.Logging/Microservices.Shared.Logging.csproj" />
+  </Folder>
+  <Folder Name="/shared/tests/">
+    <Project Path="shared/tests/Microservices.Shared.Contracts.UnitTests/Microservices.Shared.Contracts.UnitTests.csproj" />
+    <Project Path="shared/tests/Microservices.Shared.Logging.UnitTests/Microservices.Shared.Logging.UnitTests.csproj" />
   </Folder>
 </Solution>

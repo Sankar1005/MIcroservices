@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Test packages come from Directory.Build.props (all *.UnitTests projects). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Microservices.Shared.Logging\Microservices.Shared.Logging.csproj" />
+  </ItemGroup>
+
+</Project>
