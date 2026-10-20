@@ -3,7 +3,7 @@
 ASP.NET Core (.NET 10) microservices using **ADO.NET** (`Microsoft.Data.SqlClient`) and **SQL Server LocalDB**.
 
 > **ProductService** (`api/products`) and **OrderService** (`api/orders`, calls ProductService) are implemented.
-> The other services are still empty skeletons. How services talk: [docs/decisions/service-communication.md](docs/decisions/service-communication.md).
+> Clients reach them through the **API Gateway** at http://localhost:5100. The other services are still empty skeletons. How services talk: [docs/decisions/service-communication.md](docs/decisions/service-communication.md).
 > Rules for contributors and AI agents, plus service ports, are in [CLAUDE.md](CLAUDE.md).
 
 ## Repository layout
@@ -24,7 +24,7 @@ Microservices_Project/
 │   ├── customer-service/        ← customers (skeleton)
 │   ├── payment-service/         ← payments (skeleton)
 │   ├── inventory-service/       ← inventory (skeleton)
-│   └── api-gateway/             ← single entry point for clients (skeleton, YARP)
+│   └── api-gateway/             ← single entry point for clients (YARP, port 5100)   src/ApiGateway, tests/ApiGateway.UnitTests
 │
 ├── shared/                      ← libraries used by all services (by ProjectReference)
 │   ├── src/

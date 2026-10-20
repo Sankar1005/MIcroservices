@@ -37,7 +37,10 @@ Folders inside `<Name>Service.Api`:
 
 ## Code conventions
 
-- Every service calls `builder.Services.AddSharedLogging()` and `app.UseSharedLogging()` (first in the pipeline).
+- Every service calls `builder.Services.AddSharedLogging()` and `app.UseSharedLogging()` (first in the pipeline,
+  right after `app.UseForwardedHeaders()`).
+- Clients go through the API Gateway (`services/api-gateway`, YARP). A new public API = one route + one cluster in the
+  gateway's `appsettings.json`. Services read `X-Forwarded-*` headers (`docs/decisions/api-gateway.md`).
 - SQL: always `SqlParameter` with an explicit `SqlDbType`. Never build SQL by joining strings.
   `await using` for connection, command and reader.
 - Deletes are soft deletes (`IsActive = 0`). Reads return active rows only.
@@ -64,8 +67,9 @@ dotnet run --project services/product-service/src/ProductService.Api --launch-pr
 | CustomerService  | not fixed yet         | not fixed yet          |                               |
 | PaymentService   | not fixed yet         | not fixed yet          |                               |
 | InventoryService | not fixed yet         | not fixed yet          |                               |
-| ApiGateway       | not fixed yet         | not fixed yet          |                               |
+| ApiGateway       | http://localhost:5100 | https://localhost:7100 | none (use `ApiGateway.http`)  |
 
+Browsers and the Angular app call only the gateway: `http://localhost:5100/api/...`.
 Other services call ProductService at `http://localhost:5101/api/products/{id}`
 (HTTPS redirection is turned off in Development). OrderService does this when an order is placed,
 so run ProductService and OrderService together.
